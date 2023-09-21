@@ -1,0 +1,129 @@
+import java.text.DecimalFormat;
+
+// Interfaz para figuras geométricas
+interface Figura {
+    double CalcularArea();
+    double CalcularPerimetro();
+}
+
+// Clase abstracta para figuras geométricas
+abstract class FiguraGeometrica implements Figura {
+    protected String nombreFigura;
+
+    public FiguraGeometrica(String nombreFigura) {
+        this.nombreFigura = nombreFigura;
+    }
+}
+
+// Clase concreta para el círculo
+class Circulo extends FiguraGeometrica {
+    private double radio;
+
+    public Circulo(String nombreFigura, double radio) {
+        super(nombreFigura);
+
+        if (radio <= 0) {
+            throw new IllegalArgumentException("El radio debe ser un valor positivo.");
+        }
+
+        this.radio = radio;
+    }
+
+    @Override
+    public double CalcularArea() {
+        return Math.PI * (Math.pow(radio, 2));
+    }
+
+    @Override
+    public double CalcularPerimetro() {
+        return 2 * Math.PI * radio;
+    }
+}
+
+// Clase concreta para el rectángulo
+class Rectangulo extends FiguraGeometrica {
+    private double base;
+    private double altura;
+
+    public Rectangulo(String nombreFigura, double base, double altura) {
+        super(nombreFigura);
+        this.base = base;
+        this.altura = altura;
+    }
+
+    @Override
+    public double CalcularArea() {
+        return altura * base;
+    }
+
+    @Override
+    public double CalcularPerimetro() {
+        return 2 * (base + altura);
+    }
+}
+
+// Clase concreta para el triángulo
+class Triangulo extends FiguraGeometrica {
+    private double base;
+    private double altura;
+
+    public Triangulo(String nombreFigura, double base, double altura) {
+        super(nombreFigura);
+
+        if (base <= 0 || altura <= 0) {
+            throw new IllegalArgumentException("La base y la altura deben ser valores positivos y diferentes de cero.");
+        }
+
+        this.base = base;
+        this.altura = altura;
+    }
+
+    @Override
+    public double CalcularArea() {
+        return (base * altura) / 2;
+    }
+
+    @Override
+    public double CalcularPerimetro() {
+       return base + (2 * altura);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        DecimalFormat format1 = new DecimalFormat("#.00");
+        Figura[] figuras = new Figura[3];
+
+        System.out.println("Áreas y Perímetros:");
+
+        try {
+            figuras[0] = new Circulo("Circulo", -15); // Generará una excepción debido al valor negativo
+        } catch (IllegalArgumentException e) {
+            System.out.println("Se ha producido un error al crear una figura: " + e.getMessage());
+        }
+
+        try {
+            figuras[1] = new Rectangulo("Rectangulo", 15.5, 30.3);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Se ha producido un error al crear una figura: " + e.getMessage());
+        }
+
+        try {
+            figuras[2] = new Triangulo("Triangulo", 0, 8.3); // Generará una excepción debido al valor igual a cero
+        } catch (IllegalArgumentException e) {
+            System.out.println("Se ha producido un error al crear una figura: " + e.getMessage());
+        }
+
+        for (Figura figura : figuras) {
+            if (figura != null) {
+                double area = figura.CalcularArea();
+                double perimetro = figura.CalcularPerimetro();
+
+                System.out.println(figura.nombreFigura);
+                System.out.println("Área: " + format1.format(area));
+                System.out.println("Perímetro: " + format1.format(perimetro));
+                System.out.println("--------------------");
+            }
+        }
+    }
+}

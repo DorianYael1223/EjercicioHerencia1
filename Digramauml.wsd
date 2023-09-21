@@ -1,0 +1,45 @@
+@startuml
+!define AbstractClass abstract
+!define InterfaceClass interface
+
+package "Figuras Geométricas" {
+    class FiguraGeometrica {
+        -nombreFigura: String
+        {abstract} +CalcularArea(): double
+        {abstract} +CalcularPerimetro(): double
+    }
+
+    class Circulo {
+        -radio: double
+        +Circulo(nombreFigura: String, radio: double)
+        +CalcularArea(): double
+        +CalcularPerimetro(): double
+    }
+
+    class Rectangulo {
+        -base: double
+        -altura: double
+        +Rectangulo(nombreFigura: String, base: double, altura: double)
+        +CalcularArea(): double
+        +CalcularPerimetro(): double
+    }
+
+    class Triangulo {
+        -base: double
+        -altura: double
+        +Triangulo(nombreFigura: String, base: double, altura: double)
+        +CalcularArea(): double
+        +CalcularPerimetro(): double
+    }
+
+    FiguraGeometrica --|> Circulo : <<AbstractClass>>
+    FiguraGeometrica --|> Rectangulo : <<AbstractClass>>
+    FiguraGeometrica --|> Triangulo : <<AbstractClass>>
+    FiguraGeometrica ..|> Figura : <<InterfaceClass>>
+
+    Circulo ..|> Figura : <<InterfaceClass>>
+    Rectangulo ..|> Figura : <<InterfaceClass>>
+    Triangulo ..|> Figura : <<InterfaceClass>>
+}
+
+@enduml
